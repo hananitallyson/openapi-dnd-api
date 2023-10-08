@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('armas', function (Blueprint $table) {
             $table->id();
-            $table->string('index');
+            $table->string('index')->unique();
             $table->string('nome');
             $table->integer('alcance');
             $table->string('dano');
             $table->string('tipo_de_dano');
-            $table->string('propriedades');
+            $table->string('propriedade');
             $table->timestamps();
         });
     }

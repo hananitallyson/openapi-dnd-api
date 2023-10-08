@@ -15,6 +15,6 @@ class Arma extends Model
         'alcance',
         'dano',
         'tipo_de_dano',
-        'propriedades',
+        'propriedade',
     ];
 }

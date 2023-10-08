@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Api\ArmasController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Yaml\Yaml;
 
@@ -11,6 +10,4 @@ Route::get('/', function(){
     return response()->json($data);
 });
 
-Route::get('/armas', [ArmasController::class, 'index']);
-Route::post('/armas',[ArmasController::class, 'store']);
-Route::get('/armas/{index}',[ArmasController::class, 'show']);
+Route::apiResource('/armas', ArmasController::class);

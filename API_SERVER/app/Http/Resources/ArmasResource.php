@@ -20,7 +20,7 @@ class ArmasResource extends JsonResource
             'Alcance' => $this->alcance,
             'Dano' => $this->dano,
             'Tipo de Dano' => $this->tipo_de_dano,
-            'Propriedades' => $this->propriedades,
+            'Propriedade' => $this->propriedade,
         ];
     }
 }
