@@ -6,22 +6,23 @@ info:
 servers:
   - url: http://127.0.0.1:8000
 paths:
-  /api:
-    get:
-      description: Lista todas as rotas da API.
-      responses:
-        "200":
-          description: Rotas listadas com sucesso.
-          content:
-  /api/armas:
+  /armas:
     get:
       description: Lista todas as armas.
+      operationId: getArma
       responses:
         "200":
           description: Armas listadas com sucesso.
           content:
+            aplication/json:
+              schema:
+               type: array
+               minItems: 0
+               items:
+                $ref: '#/components/schemas/armas'
     post:
       description: Cria uma nova arma.
+      operationId: postArma
       requestBody:
         required: true
         content:
@@ -30,12 +31,17 @@ paths:
               type: object
               properties:
                 index:
-                  $ref: ''
+                  $ref: '#/components/schemas/armas/properties/index'
                 nome:
+                  $ref: '#/components/schemas/armas/properties/nome'
                 alcance:
+                  $ref: '#/components/schemas/armas/properties/alcance'
                 dano:
+                  $ref: '#/components/schemas/armas/properties/dano'
                 tipo_de_dano:
+                  $ref: '#/components/schemas/armas/properties/tipo_de_dano'
                 propriedade:
+                  $ref: '#/components/schemas/armas/properties/propriedade'
 
       responses:
         "201":
@@ -44,13 +50,22 @@ paths:
           description: Erro de validação, falta algum parâmetro na requisição.
         "403":
           description: Erro de autenticação, token inválido ou sem permissão necessária.
-  /api/armas/{index}:
+
+  /armas/{index}:
+    parameters:
+      - index:
+        $ref: '#/components/parameters/idArma'
+
     get:
       description: Lista uma arma específica.
+      operationId: getArma
       responses:
         "200":
           description: Arma listada com sucesso.
           content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/armas'
     put:
       description: Atualiza uma arma específica.
       responses:
@@ -69,3 +84,43 @@ paths:
           description: Erro de autenticação, token inválido ou sem permissão necessária.
         "404":
           description: Arma não encontrada ou inexistente.
+
+components:
+  schemas:
+    armas:
+      type: object
+      description: Uma arma.
+      properties:
+        index:
+          type: string
+          description: O identificador da arma.
+          example: 'espada-longa'
+        nome:
+          type: string
+          description: Nome da arma.
+          example: 'Espada Longa'
+        alcance:
+          type: integer
+          description: Alcance do ataque da arma.
+          example: "5"
+        dano:
+          type: string
+          description: Dados usados para calcular o dano da arma.
+          example: '2d6'
+        tipo_de_dano:
+          type: string
+          description: Tipo de dano que é infligido pela arma.
+          example: 'cortante'
+        propriedade:
+          type: string
+          description: Propriedade da arma.
+          example: 'acuidade'
+    
+  parameters:
+    idArma:
+      in: path
+      name: idArma
+      required: true
+      schema:
+        $ref: '#components/schemas/armas/properties/index'
+  
