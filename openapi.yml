@@ -16,9 +16,8 @@ paths:
           content:
             aplication/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/armas'
+                $ref: '#/components/schemas/armas'
+            
     post:
       description: Cria uma nova arma.
       operationId: postArma

@@ -16,9 +16,18 @@ class ArmaSeeder extends Seeder
         Arma::factory()->create([
             'index' => 'espada-longa',
             'nome' => 'Espada Longa',
-            'alcance' => 12,
-            'dano' => '1D6',
+            'alcance' => 5,
+            'dano' => '1d8',
             'tipo_de_dano' => 'Cortante',
+            'propriedade' => 'Versátil',
+        ]);
+
+        Arma::factory()->create([
+            'index' => 'espada-curta',
+            'nome' => 'Espada Curta',
+            'alcance' => 5,
+            'dano' => '1d6',
+            'tipo_de_dano' => 'Perfurante',
             'propriedade' => 'Leve',
         ]);
     }
