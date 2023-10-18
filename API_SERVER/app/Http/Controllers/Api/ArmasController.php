@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateArmaRequest;
 use App\Http\Resources\ArmasResource;
 use App\Models\Arma;
+use Illuminate\Support\Facades\Auth;
 
 class ArmasController extends Controller
 {
@@ -18,6 +19,10 @@ class ArmasController extends Controller
 
     public function store(StoreUpdateArmaRequest $request)
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        }
+
         $data = $request->validated();
 
         $arma = Arma::create($data);
@@ -38,6 +43,10 @@ class ArmasController extends Controller
 
     public function update(StoreUpdateArmaRequest $request, string $index)
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        }
+
         $armas = Arma::where('index', '=', $index)->first();
 
         if (!$armas) {
@@ -53,6 +62,10 @@ class ArmasController extends Controller
 
     public function destroy(string $index)
     {
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        }
+        
         $armas = Arma::where('index', '=', $index)->first();
 
         if (!$armas) {
