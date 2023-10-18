@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
+Route::get('/api', function () {
 
     $user = User::find(1);
 
@@ -16,7 +16,7 @@ Route::get('/', function () {
 
     Auth::login($user);
 
-    return redirect('/armas');
+    // return redirect('/armas');
 });
 
-Route::apiResource('/armas', ArmasController::class);
+Route::apiResource('/api/armas', ArmasController::class);

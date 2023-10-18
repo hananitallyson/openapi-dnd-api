@@ -4,12 +4,11 @@ info:
   description: "Nossa API de armas de D&D fornece informações sobre as várias armas que podem ser encontradas no sistema de RPG de mesa: Dungeons & Dragons. Ela inclui detalhes como nome da arma, alcance, quantidade de dano e tipo de dano causado, além das propriedades presentes na mesma."
   version: "1.0"
 servers:
-  - url: http://localhost:8000
+  - url: http://localhost:8000/api/
 paths:
   /armas:
     get:
       description: Lista todas as armas.
-      operationId: getArma
       responses:
         "200":
           description: Armas listadas com sucesso.
@@ -17,10 +16,9 @@ paths:
             aplication/json:
               schema:
                 $ref: '#/components/schemas/armas'
-            
+
     post:
       description: Cria uma nova arma.
-      operationId: postArma
       requestBody:
         required: true
         content:
@@ -56,7 +54,6 @@ paths:
 
     get:
       description: Lista uma arma específica.
-      operationId: getArma
       responses:
         "200":
           description: Arma listada com sucesso.
@@ -113,7 +110,7 @@ components:
           type: string
           description: Propriedade da arma.
           example: 'Versátil'
-    
+
   parameters:
     idArma:
       in: path
@@ -121,4 +118,3 @@ components:
       required: true
       schema:
         $ref: '#components/schemas/armas/properties/index'
-  
