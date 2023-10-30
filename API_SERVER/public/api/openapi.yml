@@ -1,0 +1,120 @@
+openapi: "3.0.2"
+info:
+  title: DNDApi
+  description: "Nossa API de armas de D&D fornece informações sobre as várias armas que podem ser encontradas no sistema de RPG de mesa: Dungeons & Dragons. Ela inclui detalhes como nome da arma, alcance, quantidade de dano e tipo de dano causado, além das propriedades presentes na mesma."
+  version: "1.0"
+servers:
+  - url: http://localhost:8000/api/
+paths:
+  /armas:
+    get:
+      description: Lista todas as armas.
+      responses:
+        "200":
+          description: Armas listadas com sucesso.
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/armas'
+
+    post:
+      description: Cria uma nova arma.
+      requestBody:
+        required: true
+        content:
+          aplication/json:
+            schema:
+              type: object
+              properties:
+                index:
+                  $ref: '#/components/schemas/armas/properties/index'
+                nome:
+                  $ref: '#/components/schemas/armas/properties/nome'
+                alcance:
+                  $ref: '#/components/schemas/armas/properties/alcance'
+                dano:
+                  $ref: '#/components/schemas/armas/properties/dano'
+                tipo_de_dano:
+                  $ref: '#/components/schemas/armas/properties/tipo_de_dano'
+                propriedade:
+                  $ref: '#/components/schemas/armas/properties/propriedade'
+
+      responses:
+        "201":
+          description: Arma criada com sucesso.
+        "400":
+          description: Erro de validação, falta algum parâmetro na requisição.
+        "403":
+          description: Erro de autenticação, token inválido ou sem permissão necessária.
+
+  /armas/{index}:
+    parameters:
+      - index:
+        $ref: '#/components/parameters/idArma'
+
+    get:
+      description: Lista uma arma específica.
+      responses:
+        "200":
+          description: Arma listada com sucesso.
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/armas'
+    put:
+      description: Atualiza uma arma específica.
+      responses:
+        "200":
+          description: Atualização realizada com sucesso.
+        "400":
+          description: Erro de validação, falta algum parâmetro na requisição.
+        "403":
+          description: Erro de autenticação, token inválido ou sem permissão necessária.
+    delete:
+      description: Deleta uma arma específica.
+      responses:
+        "200":
+          description: Arma deletada com sucesso.
+        "403":
+          description: Erro de autenticação, token inválido ou sem permissão necessária.
+        "404":
+          description: Arma não encontrada ou inexistente.
+
+components:
+  schemas:
+    armas:
+      type: object
+      description: Uma arma.
+      properties:
+        index:
+          type: string
+          description: O identificador da arma.
+          example: 'espada-longa'
+        nome:
+          type: string
+          description: Nome da arma.
+          example: 'Espada Longa'
+        alcance:
+          type: integer
+          description: Alcance do ataque da arma.
+          example: "5"
+        dano:
+          type: string
+          description: Dados usados para calcular o dano da arma.
+          example: '1d8'
+        tipo_de_dano:
+          type: string
+          description: Tipo de dano que é infligido pela arma.
+          example: 'Cortante'
+        propriedade:
+          type: string
+          description: Propriedade da arma.
+          example: 'Versátil'
+
+  parameters:
+    idArma:
+      in: path
+      name: idArma
+      required: true
+      schema:
+        $ref: '#components/schemas/armas/properties/index'
