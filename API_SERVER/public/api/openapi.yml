@@ -15,7 +15,7 @@ paths:
           content:
             aplication/json:
               schema:
-                $ref: '#/components/schemas/armas'
+                $ref: "#/components/schemas/armas"
 
     post:
       description: Cria uma nova arma.
@@ -27,17 +27,17 @@ paths:
               type: object
               properties:
                 index:
-                  $ref: '#/components/schemas/armas/properties/index'
+                  $ref: "#/components/schemas/armas/properties/index"
                 nome:
-                  $ref: '#/components/schemas/armas/properties/nome'
+                  $ref: "#/components/schemas/armas/properties/nome"
                 alcance:
-                  $ref: '#/components/schemas/armas/properties/alcance'
+                  $ref: "#/components/schemas/armas/properties/alcance"
                 dano:
-                  $ref: '#/components/schemas/armas/properties/dano'
+                  $ref: "#/components/schemas/armas/properties/dano"
                 tipo_de_dano:
-                  $ref: '#/components/schemas/armas/properties/tipo_de_dano'
+                  $ref: "#/components/schemas/armas/properties/tipo_de_dano"
                 propriedade:
-                  $ref: '#/components/schemas/armas/properties/propriedade'
+                  $ref: "#/components/schemas/armas/properties/propriedade"
 
       responses:
         "201":
@@ -49,8 +49,11 @@ paths:
 
   /armas/{index}:
     parameters:
-      - index:
-        $ref: '#/components/parameters/idArma'
+      - name: index
+        in: path
+        required: true
+        schema:
+          $ref: "#/components/parameters/idArma"
 
     get:
       description: Lista uma arma específica.
@@ -60,9 +63,27 @@ paths:
           content:
             aplication/json:
               schema:
-                $ref: '#/components/schemas/armas'
+                $ref: "#/components/schemas/armas"
     put:
       description: Atualiza uma arma específica.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                index:
+                  $ref: "#/components/schemas/armas/properties/index"
+                nome:
+                  $ref: "#/components/schemas/armas/properties/nome"
+                alcance:
+                  $ref: "#/components/schemas/armas/properties/alcance"
+                dano:
+                  $ref: "#/components/schemas/armas/properties/dano"
+                tipo_de_dano:
+                  $ref: "#/components/schemas/armas/properties/tipo_de_dano"
+                propriedade:
+                  $ref: "#/components/schemas/armas/properties/propriedade"
       responses:
         "200":
           description: Atualização realizada com sucesso.
@@ -89,11 +110,11 @@ components:
         index:
           type: string
           description: O identificador da arma.
-          example: 'espada-longa'
+          example: "espada-longa"
         nome:
           type: string
           description: Nome da arma.
-          example: 'Espada Longa'
+          example: "Espada Longa"
         alcance:
           type: integer
           description: Alcance do ataque da arma.
@@ -101,15 +122,15 @@ components:
         dano:
           type: string
           description: Dados usados para calcular o dano da arma.
-          example: '1d8'
+          example: "1d8"
         tipo_de_dano:
           type: string
           description: Tipo de dano que é infligido pela arma.
-          example: 'Cortante'
+          example: "Cortante"
         propriedade:
           type: string
           description: Propriedade da arma.
-          example: 'Versátil'
+          example: "Versátil"
 
   parameters:
     idArma:
@@ -117,4 +138,4 @@ components:
       name: idArma
       required: true
       schema:
-        $ref: '#components/schemas/armas/properties/index'
+        $ref: "#components/schemas/armas/properties/index"

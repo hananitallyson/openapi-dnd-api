@@ -15,8 +15,6 @@ Route::get('/api', function () {
     }
 
     Auth::login($user);
-
-    // return redirect('/armas');
 });
 
 Route::apiResource('/api/armas', ArmasController::class);
