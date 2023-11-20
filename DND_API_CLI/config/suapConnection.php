@@ -46,8 +46,7 @@ class suapConnection
 
             return $token;
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            print_r($e->getMessage());
-            exit(1);
+            $this->errorConection($e->getMessage());
         }
     }
 
@@ -66,6 +65,11 @@ class suapConnection
         $dados["token"] = $token;
 
         return $dados;
+    }
+
+    public function errorConection($error){
+        print("Ocorreu um erro ao conectar o usuário: \n".$error);
+        exit(1);
     }
 
     public function getDados(){

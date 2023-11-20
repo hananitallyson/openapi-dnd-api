@@ -2,15 +2,8 @@
 
 require_once 'config/suapConnection.php';
 
-$conn = new suapConnection();
+require_once 'controllers/GuzzleController.php';
 
-$dados = $conn->getDados();
+$client = new GuzzleController("http://127.0.0.1:8000/api/");
 
-echo "Usuário Logado
---------------
-Token de acesso: {$dados["token"]}
-Nome: {$dados['nome_usual']}
-Matrícula: {$dados['matricula']}
-Vínculo: {$dados['tipo_vinculo']}
-";
-
+print_r($client->deleteArma("espada-longa"));
