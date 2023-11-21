@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__."/../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
@@ -47,12 +47,48 @@ class GuzzleController
 
     /**
      * Deleta uma arma
-     * @param string index Index(nome) da arma
+     * @param string index Índice(nome) da arma
      */
-    public function deleteArma(string $index): object
+    public function deleteArma(string $index): string
     {
         $resposta = $this->guzzle->request("DELETE", "armas/$index");
         $body = json_decode($resposta->getBody());
-        return $body;
+        return $body->message . " - Código: " . $body->status;
+    }
+
+    /**
+     * Cria uma nova arma
+     * @param array array Array com os dados das armas
+     */
+    public function createArma(array $array): object
+    {
+        $resposta = $this->guzzle->request("POST", "armas", ["json" => $array]);
+        $body = json_decode($resposta->getBody());
+        return $body->data;
+    }
+
+    /**
+     * Edita os dados da arma
+     * @param array array Array com os dados das armas
+     * @param string index Índice(nome) da arma
+     * @return object em caso de sucesso
+     */
+    public function updateArma(array $array, string $index): object
+    {
+        $resposta = $this->guzzle->request("PUT", "armas/$index", ["json" => $array]);
+        $body = json_decode($resposta->getBody());
+
+        if (is_object($body)) {
+            return $body->data;
+        }
+    }
+
+    /**
+     * Transforma o array de erro em uma string
+     * @param array array Array 
+     */
+    private function makeString($array): string
+    {
+        return $array->message . " - Código: " . $array->status;
     }
 }
