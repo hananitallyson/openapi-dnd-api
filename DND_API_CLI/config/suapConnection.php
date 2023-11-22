@@ -3,28 +3,28 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use GuzzleHttp\Client;
-use Dotenv\Dotenv;
 
 class suapConnection
 {
     private $httpClient;
-    private $dotenv;
     private $token;
     private $dados;
+    private $matricula;
+    private $senha;
 
     const URL_SUAP_API = 'https://suap.ifrn.edu.br/api/v2';
 
-    public function __construct()
+    public function __construct($matricula, $senha)
     {
         $this->httpClient = new Client(['cookies' => true]);
-        $this->dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $this->loadCredentials();
+        $this->matricula = $matricula;
+        $this->senha = $senha;
     }
 
     private function loadCredentials()
     {
-        $this->dotenv->load();
-        $this->token = $this->loginSUAP($_ENV["USUARIO"], $_ENV["SENHA"]);
+        $this->token = $this->loginSUAP($this->matricula, $this->senha);
         $this->dados = $this->acessarDados($this->token);
     }
 

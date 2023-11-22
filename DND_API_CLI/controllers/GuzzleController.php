@@ -38,33 +38,33 @@ class GuzzleController
      * Retorna uma arma específica.
      * @param string index Index(nome) da arma
      */
-    public function getArma(string $index): object
+    public function getArma(string $index): array
     {
         $resposta = $this->guzzle->request("GET", "armas/$index");
         $arma = json_decode($resposta->getBody());
-        return $arma->data;
+        return get_object_vars($arma->data);
     }
 
     /**
      * Deleta uma arma
      * @param string index Índice(nome) da arma
      */
-    public function deleteArma(string $index): string
+    public function deleteArma(string $index): array
     {
         $resposta = $this->guzzle->request("DELETE", "armas/$index");
         $body = json_decode($resposta->getBody());
-        return $body->message . " - Código: " . $body->status;
+        return ["message" => "$body->message - Código: $body->status"];
     }
 
     /**
      * Cria uma nova arma
      * @param array array Array com os dados das armas
      */
-    public function createArma(array $array): object
+    public function createArma(array $array): array
     {
         $resposta = $this->guzzle->request("POST", "armas", ["json" => $array]);
         $body = json_decode($resposta->getBody());
-        return $body->data;
+        return get_object_vars($body->data);
     }
 
     /**
