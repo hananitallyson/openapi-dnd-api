@@ -7,13 +7,17 @@ require_once 'controllers/GuzzleController.php';
 $client = new GuzzleController("http://127.0.0.1:8000/api/");
 
 $array = [
-    "index" => "flame123n12312g123o",
-    "nome"=> "Arco Curto",
-    "alcance"=> 22,
-    "dano"=> "1D6",
-    "tipo_de_dano"=> "Perfudarante",
-    "propriedade"=> "Leve"
+    "index" => "adaga",
+    "nome" => "adaga",
+    "alcance" => 10,
+    "dano" => "1d4",
+    "tipo_de_dano" => "Perfudarante",
+    "propriedade" => "Leve"
 
 ];
 
 print_r($client->createArma($array)["Index"]);
+
+// print_r($client->getArma("adaga"));
+
+// print_r($client->deleteArma("adaga"));

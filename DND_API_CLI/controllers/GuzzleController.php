@@ -31,7 +31,13 @@ class GuzzleController
     {
         $resposta = $this->guzzle->request("GET", 'armas');
         $armas = json_decode($resposta->getBody());
-        return $armas->data;
+        $body = json_decode($resposta->getBody());
+
+        if ($resposta !== null) {
+            return $armas->data;
+        } else {
+            return ["message" => "$body->message - Código: $body->status"];
+        }
     }
 
     /**
@@ -40,9 +46,16 @@ class GuzzleController
      */
     public function getArma(string $index): array
     {
+
         $resposta = $this->guzzle->request("GET", "armas/$index");
         $arma = json_decode($resposta->getBody());
-        return get_object_vars($arma->data);
+        $body = json_decode($resposta->getBody());
+
+        if ($arma !== null && property_exists($arma, 'data')) {
+            return get_object_vars($arma->data);
+        } else {
+            return ["message" => "$body->message - Código: $body->status"];
+        }
     }
 
     /**
@@ -75,11 +88,14 @@ class GuzzleController
      */
     public function updateArma(array $array, string $index): object
     {
+
         $resposta = $this->guzzle->request("PUT", "armas/$index", ["json" => $array]);
         $body = json_decode($resposta->getBody());
 
         if (is_object($body)) {
             return $body->data;
+        } else {
+            return ["message" => "$body->message - Código: $body->status"];
         }
     }
 
