@@ -56,7 +56,9 @@ class ClienteController
                 echo "\n" . $this->serverColor . "[$key] - $value" . $this->resetColor;
             }
 
-            $choice = $this->getUserInput("\nEscolha a operação desejada");
+            $this->jumpLine(2);
+
+            $choice = $this->getUserInput("Escolha a operação desejada");
 
             $this->cleanTerminal();
 
@@ -76,9 +78,9 @@ class ClienteController
             case 2:
                 $this->startSystem("cadastrar arma");
                 $this->pause(1);
-                echo "\nPreencha os dados da arma";
+                echo "\nPreencha os dados da arma\n";
                 $data = [
-                    'index' => $this->getUserInput("\nIndex"),
+                    'index' => $this->getUserInput("Index"),
                     'nome' => $this->getUserInput("Nome"),
                     'alcance' => $this->getUserInput("Alcance"),
                     'dano' => $this->getUserInput("Dano"),
@@ -90,7 +92,8 @@ class ClienteController
             case 3:
                 $this->startSystem("visualizar uma arma");
                 $this->pause(1);
-                $index = $this->getUserInput("\nDigite o index da arma");
+                $index = $this->getUserInput("Digite o index da arma");
+                $this->cleanTerminal();
                 $this->format($guzzle->getArma($index), 'GET', 3);
                 break;
             case 4:
@@ -98,7 +101,7 @@ class ClienteController
                 $this->pause(1);
                 echo "\nAtualize os dados da arma";
                 $data = [
-                    'index' => $this->getUserInput("\nIndex"),
+                    'index' => $this->getUserInput("Index"),
                     'nome' => $this->getUserInput("Nome"),
                     'alcance' => $this->getUserInput("Alcance"),
                     'dano' => $this->getUserInput("Dano"),
@@ -110,13 +113,13 @@ class ClienteController
             case 5:
                 $this->startSystem("deletar arma");
                 $this->pause(1);
-                $index = $this->getUserInput("\nDigite o index da arma a ser deletada");
+                $index = $this->getUserInput("Digite o index da arma a ser deletada");
                 $this->format($guzzle->deleteArma($index), 'DELETE', 5);
                 break;
             case 0:
                 echo "\n" . $this->serverColor . "SAINDO DO D&D API!" . $this->resetColor;
                 $this->pause(3);
-                exit();
+                exit(0);
                 break;
             default:
                 break;
@@ -154,20 +157,20 @@ class ClienteController
         $this->clearResponse();
         if (!isset($array["message"]) && $method == "GET" && $case == 1) {
             foreach ($array as $value) {
-                $this->response .=
-                    "$this->serverColor
-                \r|Index: {$value->Index}
-                $this->resetColor";
+                $this->response .= "$this->serverColor|Index: {$value->Index}\n";
             }
         }
         if ($case == 3 && !isset($array["message"])) {
+            echo $this->serverColor;
             echo "\n|Index: " . $array['Index'];
             echo "\n|Nome: " . $array['Nome'];
             echo "\n|Alcance: " . $array['Alcance'];
             echo "\n|Dano: " . $array['Dano'];
             echo "\n|Tipo de dano: " . $array['Tipo de Dano'];
             echo "\n|Propriedade: " . $array['Propriedade'] . "\n";
+            echo $this->resetColor;
         }
+
         if (isset($array["message"])) {
             echo "\n" . $array["message"] . "\n";
         }
@@ -208,5 +211,12 @@ class ClienteController
     private function clearResponse()
     {
         $this->response = "";
+    }
+
+    private function jumpLine($amount)
+    {
+        for ($i = 0; $i < $amount; $i++) {
+            echo "\n";
+        }
     }
 }
