@@ -47,8 +47,7 @@ class suapConnection
 
             return $token;
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            // $this->errorConection($e->getMessage());
-            print_r($e);
+            $this->errorConection($e->getMessage());
         }
     }
 
