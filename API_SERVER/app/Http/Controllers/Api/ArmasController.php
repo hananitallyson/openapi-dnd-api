@@ -19,9 +19,9 @@ class ArmasController extends Controller
 
     public function store(StoreUpdateArmaRequest $request)
     {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
-        }
+        //     if (!Auth::check()) {
+        //         return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        //     }
 
         $data = $request->validated();
 
@@ -35,7 +35,7 @@ class ArmasController extends Controller
         $armas = Arma::where('index', '=', $index)->first();
 
         if (!$armas) {
-            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 404]);
+            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 'status'=>404]);
         }
 
         return new ArmasResource($armas);
@@ -43,14 +43,14 @@ class ArmasController extends Controller
 
     public function update(StoreUpdateArmaRequest $request, string $index)
     {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
-        }
+        // if (!Auth::check()) {
+        //     return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        // }
 
         $armas = Arma::where('index', '=', $index)->first();
 
         if (!$armas) {
-            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 404]);
+            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 'status'=>404]);
         }
 
         $data = $request->validated();
@@ -62,18 +62,18 @@ class ArmasController extends Controller
 
     public function destroy(string $index)
     {
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
-        }
-        
+        // if (!Auth::check()) {
+        //     return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
+        // }
+
         $armas = Arma::where('index', '=', $index)->first();
 
         if (!$armas) {
-            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 404]);
+            return response()->json(['message' => 'Index não corresponde a nenhum resultado', 'status'=>404]);
         }
 
         $armas->delete();
 
-        return response()->json(['message' => 'A arma foi deletada com sucesso', 200]); 
+        return response()->json(['message' => 'A arma foi deletada com sucesso', 'status'=>200]);
     }
 }
