@@ -31,12 +31,11 @@ class GuzzleController
     {
         $resposta = $this->guzzle->request("GET", 'armas');
         $armas = json_decode($resposta->getBody());
-        $body = json_decode($resposta->getBody());
 
         if ($resposta !== null) {
             return $armas->data;
         } else {
-            return ["message" => "$body->message - Código: $body->status"];
+            return ["message" => "$armas->message - Código: $armas->status"];
         }
     }
 
@@ -49,12 +48,11 @@ class GuzzleController
 
         $resposta = $this->guzzle->request("GET", "armas/$index");
         $arma = json_decode($resposta->getBody());
-        $body = json_decode($resposta->getBody());
 
         if ($arma !== null && property_exists($arma, 'data')) {
             return get_object_vars($arma->data);
         } else {
-            return ["message" => "$body->message - Código: $body->status"];
+            return ["message" => "$arma->message - Código: $arma->status"];
         }
     }
 
@@ -84,9 +82,8 @@ class GuzzleController
      * Edita os dados da arma
      * @param array array Array com os dados das armas
      * @param string index Índice(nome) da arma
-     * @return object em caso de sucesso
      */
-    public function updateArma(array $array, string $index): object
+    public function updateArma(array $array, string $index): array
     {
 
         $resposta = $this->guzzle->request("PUT", "armas/$index", ["json" => $array]);
@@ -97,14 +94,5 @@ class GuzzleController
         } else {
             return ["message" => "$body->message - Código: $body->status"];
         }
-    }
-
-    /**
-     * Transforma o array de erro em uma string
-     * @param array array Array 
-     */
-    private function makeString($array): string
-    {
-        return $array->message . " - Código: " . $array->status;
     }
 }

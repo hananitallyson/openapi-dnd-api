@@ -17,9 +17,9 @@ class suapConnection
     public function __construct($matricula, $senha)
     {
         $this->httpClient = new Client(['cookies' => true]);
-        $this->loadCredentials();
         $this->matricula = $matricula;
         $this->senha = $senha;
+        $this->loadCredentials();
     }
 
     private function loadCredentials()
@@ -28,7 +28,7 @@ class suapConnection
         $this->dados = $this->acessarDados($this->token);
     }
 
-    private function loginSUAP($usuario, $senha): string
+    private function loginSUAP($usuario, $senha)
     {
         try {
             $url = self::URL_SUAP_API . '/autenticacao/token/';
@@ -41,12 +41,14 @@ class suapConnection
             ];
 
             $response = $this->httpClient->post($url, $params);
+
             $responseData = json_decode($response->getBody());
             $token = $responseData->access;
 
             return $token;
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            $this->errorConection($e->getMessage());
+            // $this->errorConection($e->getMessage());
+            print_r($e);
         }
     }
 
@@ -67,12 +69,13 @@ class suapConnection
         return $dados;
     }
 
-    public function errorConection($error){
-        print("Ocorreu um erro ao conectar o usuário: \n".$error);
-        exit(1);
+    public function errorConection($error)
+    {
+        return "Ocorreu um erro ao conectar o usuário: \n" . $error;
     }
 
-    public function getDados(){
+    public function getDados()
+    {
         return $this->dados;
     }
 }
