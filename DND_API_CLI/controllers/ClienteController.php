@@ -71,19 +71,52 @@ class ClienteController
             case 1:
                 $this->startSystem("visualizar todas as armas");
                 $this->pause(1);
-                $this->format($guzzle->getArmas(), 'GET');
+                $this->format($guzzle->getArmas(), 'GET', 1);
                 break;
             case 2:
                 $this->startSystem("cadastrar arma");
                 $this->pause(1);
+                echo "\nPreencha os dados da arma";
+                $data = [
+                    'index' => $this->getUserInput("\nIndex"),
+                    'nome' => $this->getUserInput("Nome"),
+                    'alcance' => $this->getUserInput("Alcance"),
+                    'dano' => $this->getUserInput("Dano"),
+                    'tipo_de_dano' => $this->getUserInput("Tipo de dano"),
+                    'propriedade' => $this->getUserInput("Propriedade")
+                ];
+                $this->format($guzzle->createArma($data), 'POST', 2);
                 break;
             case 3:
+                $this->startSystem("visualizar uma arma");
+                $this->pause(1);
+                $index = $this->getUserInput("\nDigite o index da arma");
+                $this->format($guzzle->getArma($index), 'GET', 3);
                 break;
             case 4:
+                $this->startSystem("atualizar dados da arma");
+                $this->pause(1);
+                echo "\nAtualize os dados da arma";
+                $data = [
+                    'index' => $this->getUserInput("\nIndex"),
+                    'nome' => $this->getUserInput("Nome"),
+                    'alcance' => $this->getUserInput("Alcance"),
+                    'dano' => $this->getUserInput("Dano"),
+                    'tipo_de_dano' => $this->getUserInput("Tipo de dano"),
+                    'propriedade' => $this->getUserInput("Propriedade")
+                ];
+                $this->format($guzzle->updateArma($data, $data['index']), 'PUT', 4);
                 break;
             case 5:
+                $this->startSystem("deletar arma");
+                $this->pause(1);
+                $index = $this->getUserInput("\nDigite o index da arma a ser deletada");
+                $this->format($guzzle->deleteArma($index), 'DELETE', 5);
                 break;
             case 0:
+                echo "\n" . $this->serverColor . "SAINDO DO D&D API!" . $this->resetColor;
+                $this->pause(3);
+                exit();
                 break;
             default:
                 break;
@@ -116,17 +149,27 @@ class ClienteController
         }
     }
 
-    private function format(array $array, $method)
+    private function format(array $array, $method, $case)
     {
         $this->clearResponse();
-        if (!isset($array["message"]) && $method == "GET") {
+        if (!isset($array["message"]) && $method == "GET" && $case == 1) {
             foreach ($array as $value) {
                 $this->response .=
-                    "\n
-                $this->serverColor
+                    "$this->serverColor
                 \r|Index: {$value->Index}
                 $this->resetColor";
             }
+        }
+        if ($case == 3 && !isset($array["message"])) {
+            echo "\n|Index: " . $array['Index'];
+            echo "\n|Nome: " . $array['Nome'];
+            echo "\n|Alcance: " . $array['Alcance'];
+            echo "\n|Dano: " . $array['Dano'];
+            echo "\n|Tipo de dano: " . $array['Tipo de Dano'];
+            echo "\n|Propriedade: " . $array['Propriedade'] . "\n";
+        }
+        if (isset($array["message"])) {
+            echo "\n" . $array["message"] . "\n";
         }
     }
 

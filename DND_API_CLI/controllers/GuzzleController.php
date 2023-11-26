@@ -45,7 +45,6 @@ class GuzzleController
      */
     public function getArma(string $index): array
     {
-
         $resposta = $this->guzzle->request("GET", "armas/$index");
         $arma = json_decode($resposta->getBody());
 
@@ -90,7 +89,7 @@ class GuzzleController
         $body = json_decode($resposta->getBody());
 
         if (is_object($body)) {
-            return $body->data;
+            return get_object_vars($body->data);
         } else {
             return ["message" => "$body->message - Código: $body->status"];
         }
