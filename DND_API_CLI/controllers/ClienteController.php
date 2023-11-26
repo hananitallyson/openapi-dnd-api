@@ -56,7 +56,7 @@ class ClienteController
                 echo "\n" . $this->serverColor . "[$key] - $value" . $this->resetColor;
             }
 
-            $choice = $this->getUserInput("Escolha a operação desejada");
+            $choice = $this->getUserInput("\nEscolha a operação desejada");
 
             $this->cleanTerminal();
 
@@ -121,7 +121,7 @@ class ClienteController
         $this->clearResponse();
         if (!isset($array["message"]) && $method == "GET") {
             foreach ($array as $value) {
-                $this->response +=
+                $this->response .=
                     "\n
                 $this->serverColor
                 \r|Index: {$value->Index}
@@ -129,6 +129,7 @@ class ClienteController
             }
         }
     }
+
     /**
      * Limpa a tela do terminal.
      */
