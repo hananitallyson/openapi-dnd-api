@@ -92,6 +92,7 @@ class ClienteController
             case 3:
                 $this->startSystem("visualizar uma arma");
                 $this->pause(1);
+                $this->jumpLine(1);
                 $index = $this->getUserInput("Digite o index da arma");
                 $this->cleanTerminal();
                 $this->format($guzzle->getArma($index), 'GET', 3);
@@ -113,6 +114,7 @@ class ClienteController
             case 5:
                 $this->startSystem("deletar arma");
                 $this->pause(1);
+                $this->jumpLine(1);
                 $index = $this->getUserInput("Digite o index da arma a ser deletada");
                 $this->format($guzzle->deleteArma($index), 'DELETE', 5);
                 break;
