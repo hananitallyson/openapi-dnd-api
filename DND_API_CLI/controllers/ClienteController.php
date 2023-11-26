@@ -79,6 +79,7 @@ class ClienteController
                 $this->startSystem("cadastrar arma");
                 $this->pause(1);
                 echo "\nPreencha os dados da arma\n";
+
                 $data = [
                     'index' => $this->getUserInput("Index"),
                     'nome' => $this->getUserInput("Nome"),
@@ -87,6 +88,7 @@ class ClienteController
                     'tipo_de_dano' => $this->getUserInput("Tipo de dano"),
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
+
                 $this->format($guzzle->createArma($data), 'POST', 2);
                 break;
             case 3:
@@ -100,7 +102,8 @@ class ClienteController
             case 4:
                 $this->startSystem("atualizar dados da arma");
                 $this->pause(1);
-                echo "\nAtualize os dados da arma";
+                echo "\nAtualize os dados da arma\n";
+
                 $data = [
                     'index' => $this->getUserInput("Index"),
                     'nome' => $this->getUserInput("Nome"),
@@ -109,6 +112,7 @@ class ClienteController
                     'tipo_de_dano' => $this->getUserInput("Tipo de dano"),
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
+
                 $this->format($guzzle->updateArma($data, $data['index']), 'PUT', 4);
                 break;
             case 5:

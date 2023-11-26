@@ -72,9 +72,17 @@ class GuzzleController
      */
     public function createArma(array $array): array
     {
-        $resposta = $this->guzzle->request("POST", "armas", ["json" => $array]);
-        $body = json_decode($resposta->getBody());
-        return get_object_vars($body->data);
+        try {
+            $resposta = $this->guzzle->request("POST", "armas", ["json" => $array]);
+            $body = json_decode($resposta->getBody());
+            if (is_object($body->data)) {
+                return get_object_vars($body->data);
+            } else {
+                return $body;
+            }
+        } catch (\Throwable $th) {
+            return ["message" => "O index já existe ou você esqueceu de passar alguma informação"];
+        }
     }
 
     /**
