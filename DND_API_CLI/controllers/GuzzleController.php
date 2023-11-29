@@ -82,13 +82,13 @@ class GuzzleController
             ]);
 
             $body = json_decode($resposta->getBody());
-            if (is_object($body->data)) {
+            if ($body !== null && is_object($body->data)) {
                 return get_object_vars($body->data);
             } else {
                 return $body;
             }
         } catch (\Throwable $th) {
-            return ["message" => "O index já existe ou você esqueceu de passar alguma informação"];
+            return ["message" => "O index já existe ou você esqueceu de passar alguma informação."];
         }
     }
 
