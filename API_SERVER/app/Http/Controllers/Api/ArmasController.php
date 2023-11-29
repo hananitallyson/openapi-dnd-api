@@ -24,9 +24,8 @@ class ArmasController extends Controller
         //         return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
         //     }
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'O usuário precisa estar autenticado', 'status' => 401]);
+            return response()->json(['message' => 'Token de acesso faltando ou inválido', 'status' => 401]);
         }
-
 
         $data = $request->validated();
 
