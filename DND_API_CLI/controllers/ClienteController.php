@@ -89,7 +89,7 @@ class ClienteController
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
 
-                $this->format($guzzle->createArma($data), 'POST', 2);
+                $this->format($guzzle->createArma($data, $this->data["token"]), 'POST', 2);
                 break;
             case 3:
                 $this->startSystem("visualizar uma arma");
@@ -113,14 +113,14 @@ class ClienteController
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
 
-                $this->format($guzzle->updateArma($data, $data['index']), 'PUT', 4);
+                $this->format($guzzle->updateArma($data, $data['index'], $this->data["token"]), 'PUT', 4);
                 break;
             case 5:
                 $this->startSystem("deletar arma");
                 $this->pause(1);
                 $this->jumpLine(1);
                 $index = $this->getUserInput("Digite o index da arma a ser deletada");
-                $this->format($guzzle->deleteArma($index), 'DELETE', 5);
+                $this->format($guzzle->deleteArma($index, $this->data["token"]), 'DELETE', 5);
                 break;
             case 0:
                 echo "\n" . $this->serverColor . "SAINDO DO D&D API!" . $this->resetColor;
