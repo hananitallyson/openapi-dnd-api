@@ -7,7 +7,7 @@ use App\Http\Requests\StoreUpdateArmaRequest;
 use App\Http\Resources\ArmasResource;
 use App\Models\Arma;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ArmasController extends Controller
 {
@@ -23,10 +23,10 @@ class ArmasController extends Controller
         //     if (!Auth::check()) {
         //         return response()->json(['message' => 'Você precisa estar autenticado para executar essa função', 403]);
         //     }
-
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'O usuário precisa estar autenticado']);
+            return response()->json(['message' => 'O usuário precisa estar autenticado', 'status' => 401]);
         }
+
 
         $data = $request->validated();
 
@@ -53,7 +53,7 @@ class ArmasController extends Controller
         // }
 
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'O usuário precisa estar autenticado']);
+            return response()->json(['message' => 'O usuário precisa estar autenticado', 'status' => 401]);
         }
 
         $armas = Arma::where('index', '=', $index)->first();
@@ -76,7 +76,7 @@ class ArmasController extends Controller
         // }
 
         if (empty($request->bearerToken())) {
-            return response()->json(['message' => 'O usuário precisa estar autenticado']);
+            return response()->json(['message' => 'O usuário precisa estar autenticado', 'status' => 401]);
         }
 
         $armas = Arma::where('index', '=', $index)->first();

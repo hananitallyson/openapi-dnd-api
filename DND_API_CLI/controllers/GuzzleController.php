@@ -64,7 +64,6 @@ class GuzzleController
         $resposta = $this->guzzle->request("DELETE", "armas/$index", [
             "headers" => ["Authorization" => "Bearer " . $token]
         ]);
-
         $body = json_decode($resposta->getBody());
         return ["message" => "$body->message - Código: $body->status"];
     }
