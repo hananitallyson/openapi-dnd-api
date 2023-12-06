@@ -1,10 +1,15 @@
-openapi: "3.0.2"
+openapi: "3.0.3"
 info:
   title: DNDApi
   description: "Nossa API de armas de D&D fornece informações sobre as várias armas que podem ser encontradas no sistema de RPG de mesa: Dungeons & Dragons. Ela inclui detalhes como nome da arma, alcance, quantidade de dano e tipo de dano causado, além das propriedades presentes na mesma."
-  version: "1.0"
+  version: "1.1"
 servers:
-  - url: http://localhost:8000/api/
+  - url: http://{host}:{porta}/api
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "8000"
 paths:
   /armas:
     get:
@@ -163,6 +168,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
-security:
-  - bearerAuth: []
