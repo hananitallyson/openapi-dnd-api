@@ -78,7 +78,7 @@ class ClienteController
             case 2:
                 $this->startSystem("cadastrar arma");
                 $this->pause(1);
-                echo "\nPreencha os dados da arma\n";
+                echo "\n" . $this->serverColor . "PREENCHA OS DADOS DA ARMA\n" . $this->resetColor;
 
                 $data = [
                     'index' => $this->getUserInput("Index"),
@@ -102,7 +102,7 @@ class ClienteController
             case 4:
                 $this->startSystem("atualizar dados da arma");
                 $this->pause(1);
-                echo "\nAtualize os dados da arma\n";
+                echo "\n" . $this->serverColor . "ATUALIZE OS DADOS DA ARMA\n" . $this->resetColor;
 
                 $data = [
                     'index' => $this->getUserInput("Index"),
@@ -167,14 +167,9 @@ class ClienteController
             }
         }
         if ($case == 3 && !isset($array["message"])) {
-            echo $this->serverColor;
-            echo "\n|Index: " . $array['Index'];
-            echo "\n|Nome: " . $array['Nome'];
-            echo "\n|Alcance: " . $array['Alcance'];
-            echo "\n|Dano: " . $array['Dano'];
-            echo "\n|Tipo de dano: " . $array['Tipo de Dano'];
-            echo "\n|Propriedade: " . $array['Propriedade'] . "\n";
-            echo $this->resetColor;
+            foreach ($array as $key => $value) {
+                $this->response .= "$this->serverColor|$key: $value\n";
+            }
         }
 
         if (isset($array["message"])) {
