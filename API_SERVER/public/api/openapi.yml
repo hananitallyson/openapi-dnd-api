@@ -8,8 +8,6 @@ servers:
 paths:
   /armas:
     get:
-      security:
-        - bearerAuth: []
       description: Lista todas as armas.
       responses:
         "200":
@@ -64,8 +62,6 @@ paths:
           $ref: "#/components/parameters/idArma"
 
     get:
-      security:
-        - bearerAuth: []
       description: Lista uma arma específica.
       responses:
         "200":
