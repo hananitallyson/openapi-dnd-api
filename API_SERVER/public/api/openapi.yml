@@ -1,10 +1,15 @@
-openapi: "3.0.2"
+openapi: "3.0.3"
 info:
   title: DNDApi
   description: "Nossa API de armas de D&D fornece informações sobre as várias armas que podem ser encontradas no sistema de RPG de mesa: Dungeons & Dragons. Ela inclui detalhes como nome da arma, alcance, quantidade de dano e tipo de dano causado, além das propriedades presentes na mesma."
-  version: "1.0"
+  version: "1.1"
 servers:
-  - url: http://localhost:8000/api/
+  - url: http://{host}:{porta}/api
+    variables:
+      host:
+        default: localhost
+      porta:
+        default: "8000"
 paths:
   /armas:
     get:
@@ -16,8 +21,12 @@ paths:
             aplication/json:
               schema:
                 $ref: "#/components/schemas/armas"
+        "401":
+          description: Token de acesso faltando ou inválido.
 
     post:
+      security:
+        - bearerAuth: []
       description: Cria uma nova arma.
       requestBody:
         required: true
@@ -44,6 +53,8 @@ paths:
           description: Arma criada com sucesso.
         "400":
           description: Erro de validação, falta algum parâmetro na requisição.
+        "401":
+          description: Token de acesso faltando ou inválido.
         "403":
           description: Erro de autenticação, token inválido ou sem permissão necessária.
 
@@ -64,7 +75,12 @@ paths:
             aplication/json:
               schema:
                 $ref: "#/components/schemas/armas"
+        "401":
+          description: Token de acesso faltando ou inválido.
+
     put:
+      security:
+        - bearerAuth: []
       description: Atualiza uma arma específica.
       requestBody:
         content:
@@ -89,13 +105,20 @@ paths:
           description: Atualização realizada com sucesso.
         "400":
           description: Erro de validação, falta algum parâmetro na requisição.
+        "401":
+          description: Token de acesso faltando ou inválido.
         "403":
           description: Erro de autenticação, token inválido ou sem permissão necessária.
+
     delete:
+      security:
+        - bearerAuth: []
       description: Deleta uma arma específica.
       responses:
         "200":
           description: Arma deletada com sucesso.
+        "401":
+          description: Token de acesso faltando ou inválido.
         "403":
           description: Erro de autenticação, token inválido ou sem permissão necessária.
         "404":
@@ -139,3 +162,9 @@ components:
       required: true
       schema:
         $ref: "#components/schemas/armas/properties/index"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

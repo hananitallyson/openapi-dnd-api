@@ -47,6 +47,7 @@ class ClienteController
                 3 => "Visualizar Uma Arma",
                 4 => "Atualizar Dados da Arma",
                 5 => "Deletar Arma",
+                6 => "Obter Token",
                 0 => "Sair do Sistema"
             ];
 
@@ -78,7 +79,7 @@ class ClienteController
             case 2:
                 $this->startSystem("cadastrar arma");
                 $this->pause(1);
-                echo "\nPreencha os dados da arma\n";
+                echo "\n" . $this->serverColor . "PREENCHA OS DADOS DA ARMA\n" . $this->resetColor;
 
                 $data = [
                     'index' => $this->getUserInput("Index"),
@@ -89,7 +90,7 @@ class ClienteController
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
 
-                $this->format($guzzle->createArma($data), 'POST', 2);
+                $this->format($guzzle->createArma($data, $this->data["token"]), 'POST', 2);
                 break;
             case 3:
                 $this->startSystem("visualizar uma arma");
@@ -102,7 +103,7 @@ class ClienteController
             case 4:
                 $this->startSystem("atualizar dados da arma");
                 $this->pause(1);
-                echo "\nAtualize os dados da arma\n";
+                echo "\n" . $this->serverColor . "ATUALIZE OS DADOS DA ARMA\n" . $this->resetColor;
 
                 $data = [
                     'index' => $this->getUserInput("Index"),
@@ -113,14 +114,18 @@ class ClienteController
                     'propriedade' => $this->getUserInput("Propriedade")
                 ];
 
-                $this->format($guzzle->updateArma($data, $data['index']), 'PUT', 4);
+                $this->format($guzzle->updateArma($data, $data['index'], $this->data["token"]), 'PUT', 4);
                 break;
             case 5:
                 $this->startSystem("deletar arma");
                 $this->pause(1);
                 $this->jumpLine(1);
                 $index = $this->getUserInput("Digite o index da arma a ser deletada");
-                $this->format($guzzle->deleteArma($index), 'DELETE', 5);
+                $this->format($guzzle->deleteArma($index, $this->data["token"]), 'DELETE', 5);
+                break;
+            case 6:
+                $this->clearResponse();
+                $this->response = $this->data["token"];
                 break;
             case 0:
                 echo "\n" . $this->serverColor . "SAINDO DO D&D API!" . $this->resetColor;
@@ -167,14 +172,9 @@ class ClienteController
             }
         }
         if ($case == 3 && !isset($array["message"])) {
-            echo $this->serverColor;
-            echo "\n|Index: " . $array['Index'];
-            echo "\n|Nome: " . $array['Nome'];
-            echo "\n|Alcance: " . $array['Alcance'];
-            echo "\n|Dano: " . $array['Dano'];
-            echo "\n|Tipo de dano: " . $array['Tipo de Dano'];
-            echo "\n|Propriedade: " . $array['Propriedade'] . "\n";
-            echo $this->resetColor;
+            foreach ($array as $key => $value) {
+                $this->response .= "$this->serverColor|$key: $value\n";
+            }
         }
 
         if (isset($array["message"])) {

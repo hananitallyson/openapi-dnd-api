@@ -59,9 +59,11 @@ class GuzzleController
      * Deleta uma arma
      * @param string index Índice(nome) da arma
      */
-    public function deleteArma(string $index): array
+    public function deleteArma(string $index, $token): array
     {
-        $resposta = $this->guzzle->request("DELETE", "armas/$index");
+        $resposta = $this->guzzle->request("DELETE", "armas/$index", [
+            "headers" => ["Authorization" => "Bearer " . $token]
+        ]);
         $body = json_decode($resposta->getBody());
         return ["message" => "$body->message - Código: $body->status"];
     }
@@ -70,10 +72,14 @@ class GuzzleController
      * Cria uma nova arma
      * @param array array Array com os dados das armas
      */
-    public function createArma(array $array): array
+    public function createArma(array $array, $token): array
     {
         try {
-            $resposta = $this->guzzle->request("POST", "armas", ["json" => $array]);
+            $resposta = $this->guzzle->request("POST", "armas", [
+                "json" => $array,
+                "headers" => ["Authorization" => "Bearer " . $token]
+            ]);
+
             $body = json_decode($resposta->getBody());
             if ($body !== null && is_object($body->data)) {
                 return get_object_vars($body->data);
@@ -90,10 +96,13 @@ class GuzzleController
      * @param array array Array com os dados das armas
      * @param string index Índice(nome) da arma
      */
-    public function updateArma(array $array, string $index): array
+    public function updateArma(array $array, string $index, $token): array
     {
 
-        $resposta = $this->guzzle->request("PUT", "armas/$index", ["json" => $array]);
+        $resposta = $this->guzzle->request("PUT", "armas/$index", [
+            "json" => $array,
+            "headers" => ["Authorization" => "Bearer " . $token]
+        ]);
         $body = json_decode($resposta->getBody());
 
         if (is_object($body)) {
