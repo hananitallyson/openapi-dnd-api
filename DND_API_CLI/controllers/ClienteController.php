@@ -47,6 +47,7 @@ class ClienteController
                 3 => "Visualizar Uma Arma",
                 4 => "Atualizar Dados da Arma",
                 5 => "Deletar Arma",
+                6 => "Obter Token",
                 0 => "Sair do Sistema"
             ];
 
@@ -121,6 +122,10 @@ class ClienteController
                 $this->jumpLine(1);
                 $index = $this->getUserInput("Digite o index da arma a ser deletada");
                 $this->format($guzzle->deleteArma($index, $this->data["token"]), 'DELETE', 5);
+                break;
+            case 6:
+                $this->clearResponse();
+                $this->response = $this->data["token"];
                 break;
             case 0:
                 echo "\n" . $this->serverColor . "SAINDO DO D&D API!" . $this->resetColor;
